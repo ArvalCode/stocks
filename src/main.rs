@@ -12,5 +12,4 @@ fn main() {
     println!("Username: {}", username);
     println!("Email: {}", email);
     println!("Password: {}", password);
-
 }
