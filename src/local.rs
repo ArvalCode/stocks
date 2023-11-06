@@ -1,11 +1,12 @@
 use crate::global::{StockHolding, Stock};
-
+// User (Locally) Object
 pub struct User<'a> {
     username: String,
     email: String,
     password: String,
     stock_holdings: Vec<StockHolding<'a>>,
 }
+
 
 impl<'a> User<'a> {
     pub fn new(username: &str, email: &str, password: &str) -> User<'a> {
@@ -49,4 +50,44 @@ impl<'a> User<'a> {
     pub fn get_stock_holdings(&self) -> &Vec<StockHolding<'a>> {
         &self.stock_holdings
     }
+
+    pub fn combine_stock_holdings(&self) -> CombinedStockHoldingData {
+        let mut combined_data = CombinedStockHoldingData::default();
+
+        for holding in &self.stock_holdings {
+            combined_data.total_quantity += holding.quantity;
+            combined_data.total_cost += holding.quantity as f64 * holding.purchase_price;
+        }
+
+        // Calculate the profit margin
+        combined_data.profit_margin = (combined_data.total_value - combined_data.total_cost) / combined_data.total_cost;
+
+        combined_data
+    }
+}
+#[derive(Default)]
+pub struct CombinedStockHoldingData {
+    total_quantity: u32,
+    total_value: f64,
+    total_cost: f64,
+    profit_margin: f64,
+}
+
+impl CombinedStockHoldingData {
+    pub fn total_quantity(&self) -> u32 {
+        self.total_quantity
+    }
+
+    pub fn total_value(&self) -> f64 {
+        self.total_value
+    }
+
+    pub fn total_cost(&self) -> f64 {
+        self.total_cost
+    }
+
+    pub fn profit_margin(&self) -> f64 {
+        self.profit_margin
+    }
+
 }
