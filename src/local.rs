@@ -1,4 +1,5 @@
 use crate::global::{StockHolding, Stock};
+use std::fmt;
 // User (Locally) Object
 pub struct User<'a> {
     username: String,
@@ -9,6 +10,8 @@ pub struct User<'a> {
 
 
 impl<'a> User<'a> {
+    
+    
     pub fn new(username: &str, email: &str, password: &str) -> User<'a> {
         User {
             username: username.to_string(),
